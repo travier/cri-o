@@ -12,7 +12,7 @@ Vagrant.configure("2") do |config|
 
   # Every Vagrant development environment requires a box. You can search for
   # boxes at https://atlas.hashicorp.com/search.
-  config.vm.box = "fedora/30-cloud-base"
+  config.vm.box = "fedora/35-cloud-base"
 
   # Disable automatic box update checking. If you disable this, then
   # boxes will only be checked for updates when the user runs
@@ -73,7 +73,7 @@ Vagrant.configure("2") do |config|
     dnf install -y \
       btrfs-progs-devel \
       device-mapper-devel \
-      docker \
+      podman \
       git \
       glib2-devel \
       glibc-devel \
@@ -88,14 +88,10 @@ Vagrant.configure("2") do |config|
       ostree-devel \
       pkgconfig \
       runc \
-      skopeo-containers
+      crun \
+      skopeo
     chown vagrant:vagrant -R /home/vagrant
     modprobe overlay
-  SHELL
-  config.vm.provision "shell", privileged: true, inline: <<-SHELL
-    groupadd docker
-    usermod -aG docker vagrant
-    systemctl start docker.service
   SHELL
   config.vm.provision "shell", privileged: false, inline: <<-SHELL
     export GOPATH=/home/vagrant/go
